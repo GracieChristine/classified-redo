@@ -1,0 +1,91 @@
+body {
+  margin: 10px 25px;
+  background-color: black;
+  font-family: 'Forum', cursive;
+}
+
+a, p, label, div, input, h1, h2, h3, h4, h5, h6 {
+  color: #FFD700;
+}
+
+a, a:hover, a:active, a:visited, a:focus {
+  color: #FFD700;
+}
+
+button.btn.btn-primary, button.btn.btn-primary:hover, button.btn.btn-primary:active, button.btn.btn-primary:visited, button.btn.btn-primary:focus, a.btn.btn-primary, a.btn.btn-primary:hover, a.btn.btn-primary:active, a.btn.btn-primary:visited, a.btn.btn-primary:focus {
+  background-color: #FFD700;
+  border-color: #FFD700;
+  color: black;
+}
+
+a, a:hover, a:active, a:visited, a:focus, .btn, .btn:active, .btn:visited, .btn:focus {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.navbar {
+  background-color: black;
+  border-color: transparent;
+}
+
+a.navbar-brand {
+  color: #FFD700;
+  text-align: center;
+  font-family: 'Allura', cursive;
+  font-size: 28px;
+}
+
+hr {
+	border-top: 1px solid #FFD700;
+	text-align: center;
+}
+hr:after {
+	content: '§';
+	display: inline-block;
+	position: relative;
+	top: -14px;
+	padding: 0 10px;
+	background: black;
+	color: #FFD700;
+	font-size: 18px;
+	-webkit-transform: rotate(60deg);
+	-moz-transform: rotate(60deg);
+	transform: rotate(60deg);
+}
+
+.sort {
+  padding-bottom: 2em;
+}
+
+#label {
+  padding-left: 1em;
+  padding-right: .5em;
+}
+
+.well {
+  background-color: black;
+  border-color: transparent;
+}
+
+.media-heading {
+  text-decoration: underline;
+}
+
+.media-body {
+  vertical-align: middle;
+  /*text-align: center;*/
+}
+
+h4,
+h5 {
+  display: inline-block;
+  width: 49.5%;
+}
+h5 {
+  text-align: right;
+}
+img {
+  width: 250px;
+  border: 2px solid #FFD700;
+  padding: 10px;
+}
