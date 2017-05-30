@@ -12,7 +12,7 @@ a, a:hover, a:active, a:visited, a:focus {
   color: #FFD700;
 }
 
-button.btn.btn-primary, button.btn.btn-primary:hover, button.btn.btn-primary:active, button.btn.btn-primary:visited, button.btn.btn-primary:focus, a.btn.btn-primary, a.btn.btn-primary:hover, a.btn.btn-primary:active, a.btn.btn-primary:visited, a.btn.btn-primary:focus {
+.btn-info, .btn-info:hover, .btn-info:active, .btn-info:visited, .btn-info:focus,button.btn.btn-primary, button.btn.btn-primary:hover, button.btn.btn-primary:active, button.btn.btn-primary:visited, button.btn.btn-primary:focus, a.btn.btn-primary, a.btn.btn-primary:hover, a.btn.btn-primary:active, a.btn.btn-primary:visited, a.btn.btn-primary:focus {
   background-color: #FFD700;
   border-color: #FFD700;
   color: black;

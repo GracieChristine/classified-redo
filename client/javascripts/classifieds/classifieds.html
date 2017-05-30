@@ -1,21 +1,19 @@
-<!-- NavBar -->
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default colorNav">
   <div class="container">
     <div class="navbar-header">
-      <a class="navbar-brand">The Most Important List</a>
+      <a class="navbar-brand titleNav">The Most Important List</a>
     </div>
+
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     </div>
   </div>
 </nav>
-<hr>
 <main class="container">
-  <!-- Sort & Filter -->
+  <hr>
+  <div class="pull-right">
+    <p><a class="btn btn-info" ng-click="$ctrl.toggleCreate()">New Post</a></p>
+  </div>
   <div class="row sort">
-    <div class="pull-right">
-      <!-- <p><a class="btn btn-primary" ng-click="$ctrl.toggleCreate()">Create Post</a></p> -->
-      <p><a class="btn btn-primary">Create Post</a></p>
-    </div>
     <ul class="nav nav-pills col-md-5 col-md-offset-3">
       <li role="presentation" class="active">
         <input type="search" ng-model="searchText" class="form-control input-sm search-form" placeholder="Filter">
@@ -23,85 +21,113 @@
       <div class="form-inline">
         <label for="sort" id="label">Order By:</label>
         <select class="form-control" id="sort" ng-model="sortBy">
-          <option value="-created_at">Newest</option>
+          <option value="-created_at">Latest</option>
           <option value="created_at">Oldest</option>
           <option value="-price">High to Low Price</option>
           <option value="price">Low to High Price</option>
-        </select>
+      </select>
       </div>
     </ul>
   </div>
-  <!-- Posting -->
-  <!-- <div class="row" ng-show="$ctrl.showCreate"> -->
-  <div class="row">
+
+  <div class="row" ng-show="$ctrl.showCreate">
     <div class="col-md-8 col-md-offset-2">
-      <form ng-submit="$ctrl.createClassifieds()" name="$ctrl.newpost" novalidate>
-        <div class="form-group" ng-class="{'has-error': $ctrl.newpost.title.$invalid}">
+
+      <form name="$ctrl.newAd" ng-submit="$ctrl.createClassifieds()" novalidate>
+        <!-- Title -->
+        <div ng-class="{
+          'form-group': true,
+          'has-error': $ctrl.newAd.title.$invalid
+          && $ctrl.newAd.title.$touched
+        }">
           <label for="title">Title</label>
-          <input name="title" ng-model="$ctrl.post.title" id="title" class="form-control" minlength="3" type="text">
+          <input id="title" class="form-control" type="text" name="title" ng-model="$ctrl.ad.title" minlength="3" maxlength="30" required>
+          <span ng-show="$ctrl.newPostForm.title.$error.required">I need a title!</span>
+          <span ng-show="$ctrl.newPostForm.title.$error.minlength">Title needs to be greater than 3 characters!</span>
         </div>
-        <div class="form-group" ng-class="{'has-error': $ctrl.newpost.description.$invalid}">
+        <!-- Description -->
+        <div ng-class="{
+          'form-group': true,
+          'has-error': $ctrl.newAd.description.$invalid
+          && $ctrl.newAd.description.$touched
+        }">
           <label for="description">Description</label>
-          <textarea name="description" ng-model="$ctrl.post.description" id="body" class="form-control" minlength="3" type="text"></textarea>
+          <textarea id="description" class="form-control" type="text" name="description" ng-model="$ctrl.ad.description" maxlength="500" required></textarea>
+          <span ng-show="$ctrl.newPostForm.description.$error.required">I need a content or something at least!</span>
         </div>
-        <div class="form-group" ng-class="{'has-error': $ctrl.newpost.price.$invalid}">
+        <!-- Price -->
+        <div ng-class="{
+          'form-group': true,
+          'has-error': $ctrl.newAd.price.$invalid
+          && $ctrl.newAd.price.$touched
+        }">
           <label for="price">Price</label>
-          <input name="price" ng-model="$ctrl.post.price" id="price" class="form-control" minlength="1" type="text">
+          <input id="price" class="form-control" type="number" name="price" ng-model="$ctrl.ad.price" required>
+          <span ng-show="$ctrl.newPostForm.price.$error.required">I need a price!</span>
         </div>
-        <div class="form-group" ng-class="{'has-error': $ctrl.newpost.item_image.$invalid}">
-          <label for="item_image">Image URL</label>
-          <input name="item_image" ng-model="$ctrl.post.item_image" id="item_image" minlength="10" class="form-control" type="url">
+        <!-- Item URL -->
+        <div ng-class="{
+          'form-group': true,
+          'has-error': $ctrl.newAd.url.$invalid
+          && $ctrl.newAd.url.$touched
+        }">
+          <label for="image-url">Item URL</label>
+          <input id="image-url" class="form-control" type="url" name="item_image" ng-model="$ctrl.ad.item_image" required>
+          <span ng-show="$ctrl.newPostForm.item_image.$error.required">I need a image!</span>
+          <span ng-show="$ctrl.newPostForm.item_image.$error.type">I need a image url!</span>
         </div>
+        <!-- Submit Button -->
         <div class="form-group">
-          <button type="submit" class="btn btn-primary" ng-if="$ctrl.newpost.$valid">Create Post</button>
+          <br>
+          <button class="btn btn-primary" type="submit" ng-disabled="$ctrl.newAd.$invalid">
+            Create Ad
+          </button>
         </div>
       </form>
+
     </div>
   </div>
-  <hr>
-  <!-- Dispalying -->
-  <div class="row" ng-repeat="post in $ctrl.classifieds | filter:searchText | orderBy:sortBy">
+
+  <div class="row" ng-repeat="ad in $ctrl.classifieds | filter:searchText | orderBy:sortBy">
     <div class="col-md-8 col-md-offset-2">
 
       <div class="well">
         <div class="media-left">
-          <img class="media-object" ng-src="{{ post.item_image }}">
+          <img class="media-object" ng-src="{{ad.item_image}}" width='200px'>
         </div>
         <div class="media-body">
-          <h4 class="media-heading">{{ post.title }}
+          <h4 class="media-heading">{{ ad.title }}
             <h5>
-              <a ng-click="$ctrl.toggleEdit()">Edit</a> |
-              <a ng-click="$ctrl.deleteClassifieds(post)">Delete</a>
+              <a ng-click="$ctrl.toggleEdit()">Edit</a> | <a ng-click="$ctrl.deleteClassifieds(ad)">Delete</a>
             </h5>
           </h4>
-          <!-- <br> -->
-          <div>{{ post.description }}</div>
+          <div>{{ ad.description }}</div>
           <br>
-          <p>${{ post.price }}</p>
-          <p class="pull-right"> {{ post.created_at | date:"short" }} </p>
+          <p>${{ ad.price }}</p>
+          <p class="pull-right"> {{ ad.created_at | date:'short'}} </p>
         </div>
-        <!-- Editing -->
         <div class="row" ng-show="$ctrl.showEdit">
-          <div class="col-md-8">
-            <form ng-submit="$ctrl.editClassifieds(post)" name="$ctrl.newpost" novalidate>
-              <div class="form-group" ng-class="{'has-error': $ctrl.newpost.title.$invalid}">
+          <hr>
+          <div class="col-md-8 col-md-offset-2" >
+            <form ng-submit="$ctrl.editClassifieds(ad)" name="$ctrl.newad" novalidate>
+              <div class="form-group" ng-class="{'has-error' : $ctrl.newad.title.$invalid}">
                 <label for="title">Title</label>
-                <input name="title" ng-model="$ctrl.editClassified.title" ng-value="post.title" id="title" class="form-control" minlength="3" type="text">
+                <input name="title" ng-model="$ctrl.editad.title" ng-value="ad.title" id="title" class="form-control" minlength="3" type="text">
               </div>
-              <div class="form-group" ng-class="{'has-error': $ctrl.newpost.description.$invalid}">
+              <div class="form-group" ng-class="{'has-error' : $ctrl.newad.description.$invalid}">
                 <label for="description">Description</label>
-                <textarea name="description" ng-model="$ctrl.editClassified.description" ng-value="post.description" id="body" class="form-control" minlength="3" type="text"></textarea>
+                <textarea name="description" ng-model="$ctrl.editad.description" ng-value="ad.description" id="body" class="form-control" minlength="3" type="text"></textarea>
               </div>
-              <div class="form-group" ng-class="{'has-error': $ctrl.newpost.price.$invalid}">
+              <div class="form-group" ng-class="{'has-error' : $ctrl.newad.price.$invalid}">
                 <label for="price">Price</label>
-                <input name="price" ng-model="$ctrl.editClassified.price" ng-value="post.price" id="price" class="form-control" type="number">
+                <input name="price" ng-model="$ctrl.editad.price" ng-value="ad.price" id="price" class="form-control" type="text">
               </div>
-              <div class="form-group" ng-class="{'has-error': $ctrl.newpost.item_image.$invalid }">
+              <div class="form-group" ng-class="{'has-error' : $ctrl.newad.item_image.$invalid}">
                 <label for="item_image">Image URL</label>
-                <input name="item_image" ng-model="$ctrl.editClassified.item_image" ng-value="post.item_image" id="item_image" minlength="10" class="form-control" type="url">
+                <input name="item_image" ng-model="$ctrl.editad.item_image" ng-value="ad.item_image" id="item_image" minlength="10" class="form-control" type="url">
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="submit" class="btn btn-primary">Save Update</button>
               </div>
             </form>
 
@@ -110,4 +136,5 @@
       </div>
     </div>
   </div>
+  <hr>
 </main>

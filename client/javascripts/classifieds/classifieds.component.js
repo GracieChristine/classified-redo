@@ -4,7 +4,10 @@
     .module("app")
     .component("classifieds", {
       controller: controller,
-      templateUrl: "./javascripts/classifieds/classifieds.html"
+      templateUrl: "./javascripts/classifieds/classifieds.html",
+      bindings: {
+        ads: "<"
+      }
     })
 
   controller.$inject = ["classifiedsService", "$state"]
@@ -31,27 +34,27 @@
     }
 
     function createClassifieds() {
-      classifiedsService.posts(vm.post)
-        .then((post) => {
-          vm.classifieds.push(post)
+      classifiedsService.posts(vm.ad)
+        .then((ad) => {
+          vm.classifieds.push(ad)
+          delete vm.ad
+          $state.reload()
         })
-      delete vm.post
-      $state.reload()
-      vm.showCreate = false
     }
 
-    function toggleEdit() {
+    function toggleEdit(ad) {
       vm.showEdit = vm.showEdit ? !vm.showEdit : true
     }
 
-    function editClassifieds(post) {
-      classifiedsService.patches(post.id, vm.editClassified)
-        .then((classifieds) => {})
-        $state.reload()
+    function editClassifieds(ad) {
+      classifiedsService.patches(ad.id, vm.editad)
+        .then((classifieds) => {
+          $state.reload()
+        })
     }
 
-    function deleteClassifieds(post) {
-      classifiedsService.deletes(post.id)
+    function deleteClassifieds(ad) {
+      classifiedsService.deletes(ad.id)
         .then((classifieds) => {
           $state.reload()
         })
